@@ -38,7 +38,7 @@ export class URDFLayout extends PanelLayout {
     this._host = document.createElement('div');
 
     this._colors = {
-      sky: this._getThemeColor('--jp-layout-color1') || new Color(0x263238),
+      sky: new Color(0x303030),
       ground: this._getThemeColor('--jp-layout-color2') || new Color(0x263238)
     };
 

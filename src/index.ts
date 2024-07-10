@@ -98,6 +98,14 @@ const extension: JupyterFrontEndPlugin<void> = {
         tracker.save(widget);
       });
       tracker.add(widget);
+      const path = widget.context.path;
+      commands.execute('docmanager:open', {
+        path,
+        factory: 'Editor',
+        options: {
+          mode: 'split-left'
+        }
+      });
     });
 
     // Register widget and model factories
@@ -171,6 +179,9 @@ const extension: JupyterFrontEndPlugin<void> = {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       languageRegistry.findByMIME('text/xml')?.extensions?.push('xacro');
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      languageRegistry.findByMIME('text/xml')?.extensions?.push('launch');
     }
   }
 };
