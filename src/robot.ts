@@ -6,6 +6,8 @@ import { PageConfig } from '@jupyterlab/coreutils';
 
 import { LoadingManager } from 'three';
 
+import { loadMeshCb } from './meshloader';
+
 /**
  *   THREE.js          ROS URDF
  *      Y                Z
@@ -25,9 +27,13 @@ import { LoadingManager } from 'three';
  */
 class XacroLoaderWithPath extends XacroLoader {
   workingPath = '';
+  rospackCommands = {};
 
   constructor() {
     super();
+    this.rospackCommands = {
+      find: (pkg: String) => pkg
+    };
   }
 }
 
@@ -48,6 +54,7 @@ export class URDFLoadingManager extends LoadingManager {
   constructor() {
     super();
     this._urdfLoader = new URDFLoader(this);
+    this._urdfLoader.loadMeshCb = loadMeshCb.bind(this._urdfLoader)
     this._xacroLoader = new XacroLoaderWithPath();
     this.setWorkingPath();
   }

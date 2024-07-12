@@ -182,6 +182,15 @@ const extension: JupyterFrontEndPlugin<void> = {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       languageRegistry.findByMIME('text/xml')?.extensions?.push('launch');
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      languageRegistry.findByMIME('text/xml')?.extensions?.push('world');
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      languageRegistry.findByMIME('text/xml')?.extensions?.push('sdf');
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      languageRegistry.findByMIME('text/xml')?.extensions?.push('owl');
     }
   }
 };
