@@ -32,7 +32,12 @@ class XacroLoaderWithPath extends XacroLoader {
   constructor() {
     super();
     this.rospackCommands = {
-      find: (pkg: String) => pkg
+      find: (pkg: String) => {
+        return this.workingPath + '/' + pkg
+      },
+      optenv: (env: String, defaultVal: String) => {
+        return defaultVal
+      }
     };
   }
 }

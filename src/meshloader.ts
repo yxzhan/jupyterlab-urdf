@@ -1,5 +1,6 @@
 
-import { LoadingManager,
+import {
+  LoadingManager,
   LoaderUtils,
   Mesh,
   MeshPhongMaterial,
@@ -35,7 +36,7 @@ export function loadMeshCb(path: string, manager: LoadingManager, done: any): vo
   } else if (/\.obj$/i.test(path)) {
 
     const loader = new OBJLoader(manager);
-    
+
     loader.load(path, (obj: any) => {
       if (obj.materialLibraries.length && !loader.materials) {
         // Load the material
