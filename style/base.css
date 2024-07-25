@@ -27,6 +27,11 @@
   color: var(--gui-color-font);
   border: none;
   box-sizing: border-box;
+  opacity: 0.5;
+}
+
+.urdf-gui:hover {
+  opacity: 0.9;
 }
 
 .urdf-gui li.folder {
@@ -125,6 +130,6 @@
 }
 
 .urdf-gui .joints-folder ul {
-  max-height: 50vh;
+  max-height: 30vh;
   overflow: scroll;
 }
