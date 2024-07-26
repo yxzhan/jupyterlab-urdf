@@ -80,6 +80,7 @@
   background: var(--gui-color-input-bg);
   text-align: center;
   text-shadow: none;
+  line-height: 1.5;
 }
 
 .urdf-gui .cr.string input[type='text'],
