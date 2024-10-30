@@ -177,6 +177,11 @@ export class URDFControls extends GUI {
    * @returns - The controls to trigger callbacks when any joint value changes
    */
   createJointControls(joints: IJoints) {
+    // clear previous joint controls
+    for (let name in this.controls.joints) {
+      this._jointsFolder.remove(this.controls.joints[name]);
+    }
+    this.controls.joints = {};
     if (this._isEmpty(this.controls.joints)) {
       Object.keys(joints).forEach((name: string) => {
         // Skip joints which should not be moved

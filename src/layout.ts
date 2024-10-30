@@ -26,6 +26,7 @@ export class URDFLayout extends PanelLayout {
   private _renderer: URDFRenderer;
   private _colors: IURDFColors;
   private _loader: URDFLoadingManager;
+  private _updateTimer: number;
 
   /**
    * Construct a `URDFLayout`
@@ -36,6 +37,7 @@ export class URDFLayout extends PanelLayout {
     // Creating container for URDF viewer and
     // output area to render execution replies
     this._host = document.createElement('div');
+    this._updateTimer = 0;
 
     this._colors = {
       sky: new Color(0x303030),
@@ -83,13 +85,30 @@ export class URDFLayout extends PanelLayout {
   }
 
   /**
+   * Update render until loader is ready
+   *
+   */
+  _delayUpdate(): void {
+    clearTimeout(this._updateTimer);
+    this._updateTimer = setTimeout(() => {
+      if (this._loader.isReady) {
+        this._renderer.setRobot(this._loader.robotModel);
+        this._setControls();
+      } else {
+        this._delayUpdate();
+      };
+    }, 500);
+
+  }
+
+  /**
    * Updates the viewer with any new changes on the file
    *
    * @param urdfString - The contents of the file with the new changes
    */
   updateURDF(urdfString: string): void {
     this._loader.setRobot(urdfString);
-    this._renderer.setRobot(this._loader.robotModel);
+    this._delayUpdate();
   }
 
   /**
