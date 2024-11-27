@@ -2,6 +2,8 @@ import * as THREE from 'three';
 
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
+import { URDFViewportHelper } from './viewport';
+
 import { URDFRobot } from 'urdf-loader';
 
 /**
@@ -21,6 +23,7 @@ export class URDFRenderer extends THREE.WebGLRenderer {
   private _scene: THREE.Scene;
   private _camera: THREE.PerspectiveCamera;
   private _controls: OrbitControls;
+  private _viewportHelper: URDFViewportHelper | undefined;
   private _colorSky = new THREE.Color();
   private _colorGround = new THREE.Color();
   private _gridHeight = 0;
@@ -76,7 +79,10 @@ export class URDFRenderer extends THREE.WebGLRenderer {
     this._controls.enableDamping = false;
     this._controls.maxDistance = 50;
     this._controls.minDistance = 0.25;
-    this._controls.addEventListener('change', () => this.redraw());
+    this._controls.addEventListener('change', () => {
+      this._viewportHelper && this._viewportHelper.update(false);
+      this.redraw();
+    });
   }
 
   /**
@@ -230,9 +236,26 @@ export class URDFRenderer extends THREE.WebGLRenderer {
    * Refreshes the viewer by re-rendering the scene and its elements
    */
   redraw(): void {
+    this.render(this._scene, this._camera);
+    this._viewportHelper && this._viewportHelper.render();
+  }
+
+  /**
+   * Reset camera aspect when window is resized
+   */
+  resize(): void {
     const renderSize = this.getSize(new THREE.Vector2());
     this._camera.aspect = renderSize.width / renderSize.height;
     this._camera.updateProjectionMatrix();
-    this.render(this._scene, this._camera);
+    this._viewportHelper && this._viewportHelper.update();
+    this.redraw();
+  }
+
+  /**
+   * Initializes the viewport helper
+   */
+  initViewportHelper(): void {
+    this._viewportHelper = new URDFViewportHelper(this._camera, this);
+    this._viewportHelper.addEventListener('change', () => this.redraw());
   }
 }
