@@ -256,6 +256,7 @@ export class URDFLayout extends PanelLayout {
       this._renderer.domElement.clientHeight
     );
     this._host.appendChild(this._controlsPanel.domElement);
+    this._renderer.initViewportHelper();
   }
 
   /**
@@ -271,6 +272,6 @@ export class URDFLayout extends PanelLayout {
       rect?.height || currentSize.height
     );
 
-    this._renderer.redraw();
+    this._renderer.resize();
   }
 }
