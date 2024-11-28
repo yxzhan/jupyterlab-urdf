@@ -129,3 +129,14 @@
   max-height: 50vh;
   overflow: scroll;
 }
+
+.jp-urdf-canvas .xml-error-panel {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #0000006b;
+  color: red;
+  padding: 10px;
+  max-width: 50%;
+}

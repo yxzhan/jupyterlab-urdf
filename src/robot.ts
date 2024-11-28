@@ -94,6 +94,9 @@ export class URDFLoadingManager extends LoadingManager {
    */
   setRobot(robotString = ''): void {
     this._robotString = robotString || this._robotString;
+    if (this.hasXMLError(this._robotString)) {
+      return;
+    }
 
     if (robotString.includes('xacro')) {
       this._xacroLoader.parse(
@@ -102,12 +105,28 @@ export class URDFLoadingManager extends LoadingManager {
           this._robotModel = this._urdfLoader.parse(xml);
           this._robotModel.rotation.x = -Math.PI / 2;
         },
-        (err: Error) => console.error(err)
+        (err: Error) => this.onError(err.message)
       );
     } else {
       this._robotModel = this._urdfLoader.parse(this._robotString);
       this._robotModel.rotation.x = -Math.PI / 2;
     }
+  }
+
+  /**
+   * Check XML syntax error
+   */
+  hasXMLError(xmlStr: string): boolean {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(xmlStr, 'application/xml');
+    const errorNode = doc.querySelector('parsererror div');
+    if (errorNode) {
+      this.onError('XML syntax error:\n' + errorNode?.textContent);
+    } else {
+      // Clear error message
+      this.onError('');
+    }
+    return !!errorNode;
   }
 
   /**

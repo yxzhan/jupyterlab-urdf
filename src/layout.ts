@@ -12,6 +12,8 @@ import { URDFRenderer } from './renderer';
 
 import { URDFLoadingManager } from './robot';
 
+import { PageConfig } from '@jupyterlab/coreutils';
+
 interface IURDFColors {
   sky: Color;
   ground: Color;
@@ -22,6 +24,7 @@ interface IURDFColors {
  */
 export class URDFLayout extends PanelLayout {
   private _host: HTMLElement;
+  private _errPanel: HTMLElement;
   private _controlsPanel: URDFControls;
   private _renderer: URDFRenderer;
   private _colors: IURDFColors;
@@ -36,6 +39,9 @@ export class URDFLayout extends PanelLayout {
     // Creating container for URDF viewer and
     // output area to render execution replies
     this._host = document.createElement('div');
+
+    // Create a panel for error messages
+    this._errPanel = document.createElement('div');
 
     this._colors = {
       sky: this._getThemeColor('--jp-layout-color1') || new Color(0x263238),
@@ -64,6 +70,26 @@ export class URDFLayout extends PanelLayout {
 
     // Add the URDF container into the DOM
     this.addWidget(new Widget({ node: this._host }));
+    this.initErrorPanel();
+  }
+
+  /**
+   * Init error panel
+   */
+  initErrorPanel() {
+    this._errPanel.className = 'xml-error-panel';
+    this._loader.onError = (msg: string) => {
+      let _msg = msg;
+      if (msg.includes(PageConfig.getBaseUrl())) {
+        this._loader.workingPath;
+        const urlPrefix =
+          PageConfig.getBaseUrl() + 'files' + this._loader.workingPath;
+        _msg = 'Failed to load file:\n' + msg.replace(urlPrefix, '');
+      }
+      this._errPanel.innerText = _msg;
+      this._errPanel.style.display = msg ? 'block' : 'none';
+    };
+    this.addWidget(new Widget({ node: this._errPanel }));
   }
 
   /**
