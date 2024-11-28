@@ -144,4 +144,6 @@
   color: red;
   padding: 10px;
   max-width: 50%;
+  white-space: break-spaces;
+  word-wrap: break-word;
 }
