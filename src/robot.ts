@@ -32,11 +32,11 @@ class XacroLoaderWithPath extends XacroLoader {
   constructor() {
     super();
     this.rospackCommands = {
-      find: (pkg: String) => {
-        return this.workingPath + '/' + pkg
+      find: (pkg: string) => {
+        return this.workingPath + '/' + pkg;
       },
-      optenv: (env: String, defaultVal: String) => {
-        return defaultVal
+      optenv: (env: string, defaultVal: string) => {
+        return defaultVal;
       }
     };
   }
@@ -59,7 +59,7 @@ export class URDFLoadingManager extends LoadingManager {
   constructor() {
     super();
     this._urdfLoader = new URDFLoader(this);
-    this._urdfLoader.loadMeshCb = loadMeshCb.bind(this._urdfLoader)
+    this._urdfLoader.loadMeshCb = loadMeshCb.bind(this._urdfLoader);
     this._xacroLoader = new XacroLoaderWithPath();
     this.setWorkingPath();
   }

@@ -178,7 +178,7 @@ export class URDFControls extends GUI {
    */
   createJointControls(joints: IJoints) {
     // clear previous joint controls
-    for (let name in this.controls.joints) {
+    for (const name in this.controls.joints) {
       this._jointsFolder.remove(this.controls.joints[name]);
     }
     this.controls.joints = {};

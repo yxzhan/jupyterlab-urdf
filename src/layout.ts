@@ -122,9 +122,8 @@ export class URDFLayout extends PanelLayout {
         this._setControls();
       } else {
         this._delayUpdate();
-      };
+      }
     }, 500);
-
   }
 
   /**
