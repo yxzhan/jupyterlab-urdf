@@ -17,6 +17,10 @@ export function loadMeshCb(
   manager: LoadingManager,
   done: any
 ): void {
+  // Covert file path to proper url path
+  path = path.replace(/^file:\/\//, '');
+  path = '/' + path;
+
   if (/\.stl$/i.test(path)) {
     const loader = new STLLoader(manager);
     loader.load(path, geom => {

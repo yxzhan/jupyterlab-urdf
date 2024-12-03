@@ -98,14 +98,6 @@ const extension: JupyterFrontEndPlugin<void> = {
         tracker.save(widget);
       });
       tracker.add(widget);
-      const path = widget.context.path;
-      commands.execute('docmanager:open', {
-        path,
-        factory: 'Editor',
-        options: {
-          mode: 'split-left'
-        }
-      });
     });
 
     // Register widget and model factories

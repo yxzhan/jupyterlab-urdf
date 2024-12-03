@@ -93,6 +93,24 @@ export class URDFLayout extends PanelLayout {
     };
     this.addWidget(new Widget({ node: this._errPanel }));
   }
+  /**
+   * Add a editor toggle button
+   */
+  initEditBtn(filePath: string) {
+    const editBtn: HTMLElement = document.createElement('button');
+    editBtn.className = 'urdf-edit-btn jp-toast-button jp-Button';
+    editBtn.innerText = 'Open Editor';
+    editBtn.setAttribute('data-commandlinker-command', 'docmanager:open');
+    editBtn.setAttribute(
+      'data-commandlinker-args',
+      `
+      {
+        "factory": "Editor", 
+        "path": "${filePath}"
+      }`
+    );
+    this.addWidget(new Widget({ node: editBtn }));
+  }
 
   /**
    * Create an iterator over the widgets in the layout
@@ -143,6 +161,7 @@ export class URDFLayout extends PanelLayout {
    */
   setURDF(context: DocumentRegistry.IContext<DocumentModel>): void {
     // Default to parent directory of URDF file
+    this.initEditBtn(context.path);
     const filePath = context.path;
     const parentDir = filePath.substring(0, filePath.lastIndexOf('/'));
     this._loader.setWorkingPath(parentDir);

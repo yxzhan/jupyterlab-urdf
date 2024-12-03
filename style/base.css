@@ -135,10 +135,19 @@
   overflow: scroll;
 }
 
+.jp-urdf-canvas .urdf-edit-btn {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-weight: bold;
+  margin: 10px;
+  font-size: 14px;
+}
+
 .jp-urdf-canvas .xml-error-panel {
   display: none;
   position: absolute;
-  top: 0;
+  bottom: 0;
   left: 0;
   background: #0000006b;
   color: red;

@@ -104,7 +104,7 @@ export class URDFControls extends GUI {
         workspaceSettings,
         'set path'
       );
-      this._workspaceFolder.open();
+      // this._workspaceFolder.open();
     }
     return this.controls.path;
   }
@@ -147,7 +147,7 @@ export class URDFControls extends GUI {
         stepSize
       );
 
-      this._sceneFolder.open();
+      // this._sceneFolder.open();
     }
     return this.controls.scene;
   }
