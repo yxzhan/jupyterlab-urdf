@@ -261,6 +261,18 @@ export class URDFLayout extends PanelLayout {
     sceneControl.height.onChange((newHeight: number) =>
       this._renderer.setGridHeight(newHeight)
     );
+    sceneControl.visual.onChange((newVisible: boolean) =>
+      this._renderer.setMeshVisible(
+        newVisible,
+        (mesh: any) => mesh.isURDFVisual
+      )
+    );
+    sceneControl.collision.onChange((newVisible: boolean) =>
+      this._renderer.setMeshVisible(
+        newVisible,
+        (mesh: any) => mesh.isURDFCollider
+      )
+    );
   }
 
   /**

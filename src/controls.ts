@@ -23,7 +23,9 @@ export class URDFControls extends GUI {
     scene: {
       background: {},
       grid: {},
-      height: {}
+      height: {},
+      visual: {},
+      collision: {}
     },
     joints: {}
   };
@@ -124,7 +126,9 @@ export class URDFControls extends GUI {
       const sceneSettings = {
         Background: this._convertColor2Array(bgColor),
         Grid: this._convertColor2Array(gridColor),
-        Height: 0
+        Height: 0,
+        Visual: true,
+        Collision: true
       };
 
       this.controls.scene.background = this._sceneFolder.addColor(
@@ -147,7 +151,17 @@ export class URDFControls extends GUI {
         stepSize
       );
 
-      // this._sceneFolder.open();
+      this.controls.scene.visual = this._sceneFolder.add(
+        sceneSettings,
+        'Visual'
+      );
+
+      this.controls.scene.collision = this._sceneFolder.add(
+        sceneSettings,
+        'Collision'
+      );
+
+      this._sceneFolder.open();
     }
     return this.controls.scene;
   }
@@ -179,7 +193,7 @@ export class URDFControls extends GUI {
   createJointControls(joints: IJoints) {
     // clear previous joint controls
     for (const name in this.controls.joints) {
-      this._jointsFolder.remove(this.controls.joints[name]);
+      this.controls.joints[name].remove();
     }
     this.controls.joints = {};
     if (this._isEmpty(this.controls.joints)) {

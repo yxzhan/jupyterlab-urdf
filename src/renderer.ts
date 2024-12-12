@@ -108,7 +108,9 @@ export class URDFRenderer extends THREE.WebGLRenderer {
     ground.rotation.x = -Math.PI / 2;
     ground.scale.setScalar(30);
     ground.receiveShadow = true;
-    this._scene.add(ground);
+    // TODO: The plane affect the rendering of transparent objects
+    // from some camera angles
+    // this._scene.add(ground);
   }
 
   /**
@@ -216,11 +218,52 @@ export class URDFRenderer extends THREE.WebGLRenderer {
   }
 
   /**
+   * Toggle the visibility of the collision and visual meshes of the robot
+   *
+   * @param visible - visibility of the meshes
+   */
+  setMeshVisible(
+    visible: boolean,
+    filterFunc: (value: THREE.Object3D) => boolean
+  ): void {
+    const robot = this._scene.children[this._robotIndex] as URDFRobot;
+    for (const key in robot.links) {
+      robot.links[key].children
+        .filter(filterFunc)
+        .forEach((c: any) => (c.visible = visible));
+    }
+    this.redraw();
+  }
+
+  /**
+   * Set the rendering style of the collision meshes to wireframe
+   *
+   * @param robot
+   */
+  setCollisionStyle(robot: URDFRobot): void {
+    for (const key in robot.links) {
+      robot.links[key].children
+        .filter((c: any) => c.isURDFCollider)
+        .forEach((c: any) => {
+          c.children
+            .filter((c: any) => c.isMesh)
+            .forEach((mesh: any) => {
+              mesh.material.transparent = true;
+              mesh.material.opacity = 0.3;
+              mesh.material.color = new THREE.Color(0x00ff00);
+              mesh.material.wireframe = true;
+            });
+        });
+    }
+  }
+
+  /**
    * Adds a robot to the scene or updates the existing robot
    *
    * @param robot
    */
   setRobot(robot: URDFRobot): void {
+    this.setCollisionStyle(robot);
     if (this._robotIndex < 0) {
       this._scene.add(robot);
       this._robotIndex = this._scene.children

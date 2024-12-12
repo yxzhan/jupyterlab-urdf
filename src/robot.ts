@@ -59,6 +59,7 @@ export class URDFLoadingManager extends LoadingManager {
   constructor() {
     super();
     this._urdfLoader = new URDFLoader(this);
+    this._urdfLoader.parseCollision = true;
     this._urdfLoader.loadMeshCb = loadMeshCb.bind(this._urdfLoader);
     this._xacroLoader = new XacroLoaderWithPath();
     this.setWorkingPath();
