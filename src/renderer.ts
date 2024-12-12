@@ -109,8 +109,9 @@ export class URDFRenderer extends THREE.WebGLRenderer {
     ground.scale.setScalar(30);
     ground.receiveShadow = true;
     // TODO: The plane affect the rendering of transparent objects
-    // from some camera angles
-    // this._scene.add(ground);
+    // from some camera angles, so move it down a bit
+    ground.position.y = -5;
+    this._scene.add(ground);
   }
 
   /**
