@@ -73,6 +73,35 @@ export class URDFLayout extends PanelLayout {
     // Add the URDF container into the DOM
     this.addWidget(new Widget({ node: this._host }));
     this.initErrorPanel();
+    this.initProgressBar();
+  }
+
+  /**
+   * Init loader progress bar
+   */
+  initProgressBar() {
+    const progressBar = document.createElement('div');
+    progressBar.className = 'mesh-progress-bar';
+    progressBar.innerText = 'Loading... 0%';
+
+    this._loader.onStart = () => {
+      progressBar.style.display = 'block';
+    };
+
+    this._loader.onProgress = (
+      url: string,
+      itemsLoaded: number,
+      itemsTotal: number
+    ) => {
+      const progress = Math.ceil((itemsLoaded / itemsTotal) * 100);
+      progressBar.innerText = `Loading... ${progress}%`;
+      progressBar.style.backgroundSize = `${progress}%`;
+
+      if (progress === 100) {
+        progressBar.style.display = 'none';
+      }
+    };
+    this.addWidget(new Widget({ node: progressBar }));
   }
 
   /**
